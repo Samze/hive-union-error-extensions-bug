@@ -14,7 +14,7 @@ start: stop build ## Start both REST and GraphQL servers in background
 	@npm run server &
 	@sleep 2
 	@echo "Starting GraphQL Gateway server..."
-	@npm start
+	@DEBUG=true npm start
 
 stop: ## Stop all running servers
 	@echo "Stopping all Node.js servers..."
