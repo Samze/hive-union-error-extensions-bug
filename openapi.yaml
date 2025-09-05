@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Simple API
+  version: 1.0.0
+  description: A simple API demonstrating different response types for different status codes
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /data:
+    get:
+      summary: Get data with different response types
+      operationId: getData
+      responses:
+        '201':
+          description: Success response with user data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '202':
+          description: Accepted response with order data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user:
+    get:
+      summary: Get user data
+      operationId: getUser
+      responses:
+        '200':
+          description: Success response with user data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          example: "john@example.com"
+        type:
+          type: string
+          enum: ["user"]
+          example: "user"
+      required:
+        - id
+        - name
+        - email
+        - type
+
+    OrderResponse:
+      type: object
+      properties:
+        orderId:
+          type: string
+          example: "ORD-12345"
+        amount:
+          type: number
+          format: float
+          example: 99.99
+        status:
+          type: string
+          example: "pending"
+        type:
+          type: string
+          enum: ["order"]
+          example: "order"
+      required:
+        - orderId
+        - amount
+        - status
+        - type
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Bad request"
+        code:
+          type: integer
+          example: 400
+      required:
+        - error
+        - code
